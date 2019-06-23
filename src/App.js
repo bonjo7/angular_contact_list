@@ -3,7 +3,7 @@ import Header from "./components/header/";
 import ContactList from "./components/contactList/";
 import FilterControls from "./components/filterControls/";
 import request from "superagent";
-import api from "./dataStore/stubAPI"; // NEW
+import api from "./dataStore/stubAPI";
 
 class App extends Component {
   state =
@@ -21,13 +21,18 @@ class App extends Component {
       }
     });
   }
+  deleteContact = (key) => {
+    api.delete(key);
+    this.setState({});
+  };
   render() {
     let contacts = api.getAll();
     return (
       <div className="jumbotron">
         <Header noContacts={contacts.length} />
         <FilterControls />
-        <ContactList contacts={contacts} />
+        <ContactList contacts={contacts}
+          deleteHandler={this.deleteContact} />
       </div>
     );
   }

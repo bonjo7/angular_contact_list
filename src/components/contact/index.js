@@ -21,12 +21,17 @@ class Contact extends Component {
     let updatedEmail = this.state.email.trim();
     let updatedPhone = this.state.phone.trim();
     if (!updatedEmail || !updatedPhone) {
-    return;
+      return;
     }
     let { email, phone } = this.state;
     this.setState({ status: "", previousDetails: { email, phone } });
     api.update(this.state.previousDetails.phone, updatedEmail, updatedPhone);
-};   
+  };
+  handleDelete = () => this.setState({ status: 'del' });
+  handleConfirm = (e) => {
+    e.preventDefault();
+    this.props.deleteHandler(this.state.phone);
+  };
   handleCancel = () => {
     let { email, phone } = this.state.previousDetails;
     this.setState({ status: "", email, phone });
@@ -34,16 +39,24 @@ class Contact extends Component {
   handleEmailChange = e => this.setState({ email: e.target.value });
   handlePhoneChange = e => this.setState({ phone: e.target.value });
   render() {
+
     let activeButtons = buttons.normal;
     let leftButtonHandler = this.handleEdit;
     let rightButtonHandler = this.handleDelete;
     let cardColor = "bg-white";
+    
     if (this.state.status === "edit") {
       cardColor = "bg-primary";
       activeButtons = buttons.edit;
       leftButtonHandler = this.handleSave;
       rightButtonHandler = this.handleCancel;
+    } else if (this.state.status === 'del') {
+      cardColor = "bg-warning";
+      activeButtons = buttons.delete;
+      leftButtonHandler = this.handleCancel;
+      rightButtonHandler = this.handleConfirm;
     }
+
     return (
       <div className="col-sm-3">
         <div className={`card  ${cardColor}`}>
@@ -56,7 +69,7 @@ class Contact extends Component {
             <h5 className="card-title ">
               {`${this.props.contact.name.first} ${
                 this.props.contact.name.last
-              }`}
+                }`}
             </h5>
             {this.state.status === "edit" ? (
               <Fragment>
@@ -78,17 +91,17 @@ class Contact extends Component {
                 </p>
               </Fragment>
             ) : (
-              <Fragment>
-                <p>
-                  <FontAwesomeIcon icon={["fas", "envelope"]} />
-                  <span> {this.props.contact.email}</span>
-                </p>
-                <p>
-                  <FontAwesomeIcon icon={["fas", "phone"]} />
-                  <span> {this.props.contact.phone} </span>
-                </p>
-              </Fragment>
-            )}
+                <Fragment>
+                  <p>
+                    <FontAwesomeIcon icon={["fas", "envelope"]} />
+                    <span> {this.props.contact.email}</span>
+                  </p>
+                  <p>
+                    <FontAwesomeIcon icon={["fas", "phone"]} />
+                    <span> {this.props.contact.phone} </span>
+                  </p>
+                </Fragment>
+              )}
           </div>
           <div className="card-footer">
             <div
