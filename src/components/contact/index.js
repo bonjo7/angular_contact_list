@@ -27,17 +27,18 @@ class Contact extends Component {
     this.setState({ status: "", previousDetails: { email, phone } });
     api.update(this.state.previousDetails.phone, updatedEmail, updatedPhone);
   };
-  handleDelete = () => this.setState({ status: 'del' });
-  handleConfirm = (e) => {
-    e.preventDefault();
-    this.props.deleteHandler(this.state.phone);
-  };
   handleCancel = () => {
     let { email, phone } = this.state.previousDetails;
     this.setState({ status: "", email, phone });
   };
   handleEmailChange = e => this.setState({ email: e.target.value });
   handlePhoneChange = e => this.setState({ phone: e.target.value });
+
+  handleDelete = () => this.setState({ status: 'del' });
+  handleConfirm = (e) => {
+    e.preventDefault();
+    this.props.deleteHandler(this.state.phone);
+  };
   render() {
 
     let activeButtons = buttons.normal;
