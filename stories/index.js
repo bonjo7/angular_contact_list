@@ -7,8 +7,9 @@ import Contact from '../src/components/contact/';
 import ContactList from '../src/components/contactList/';
 import { action } from '@storybook/addon-actions';
 import { MemoryRouter, Route } from "react-router";
-import PublicProfile from '../src/components/contactPublic/publicProfile'
-import ContactPrivateDetails from '../src/components/contactPrivate/'
+import PublicProfile from '../src/components/contactPublic/publicProfile';
+import ContactPrivateDetails from '../src/components/contactPrivate/';
+import ContactPublicDetails from '../src/components/contactPublic/';
 
 const sample = {
   name: {first:'Joe', last:'Bloggs'},
@@ -83,3 +84,11 @@ storiesOf("Contact List App/Contact Page/ContactPrivate", module)
 .add("default", () => ( 
    <ContactPrivateDetails user={sample}/>
 ));
+
+storiesOf("Contact List App/Contact Page/Public", module)
+.addDecorator(story => (
+  <MemoryRouter initialEntries={["/"]}>{story()}</MemoryRouter>
+))
+.add("default", () => { 
+   return <ContactPublicDetails user={sample}/>
+});
