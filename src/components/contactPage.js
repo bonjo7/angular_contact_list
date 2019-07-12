@@ -6,7 +6,9 @@ import ContactPrivate from "../components/contactPrivate/";
 
 const ContactPage = props => {
   const { id } = props.match.params;
+  
   const contact = api.find(id);
+
   return (
     <Fragment>
       {contact ? (
